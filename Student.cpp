@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <vector>
+
 
 using namespace std;
 
@@ -10,7 +10,7 @@ public:
     string name;
     char div;
 
-    void accept() {
+    inline void accept() {
         cout << "\nEnter Roll Number: ";
         cin >> rollNo;
         cout << "Enter the Name: ";
@@ -19,66 +19,91 @@ public:
         cin >> div;
     }
 
-    void modifyname() {
+    inline void modifyname() {
         cout << "\nEnter the new name: ";
         cin >> name;
     }
-    void modifydiv() {
+    inline void modifydiv() {
         cout << "\nEnter the new Division: ";
         cin >> div;
     }
 
-    int getRollNo() const {
+    inline int getRollNo() const {
         return rollNo;
     }
 
-    void display() const {
-        cout << "\n" << rollNo << "\t" << name << "\t" << div << endl;
+    inline void display() const {
+        cout << "\n" << rollNo << "\n" << name << "\n" << div << endl;
+    }
+    inline void remove() {
+    	rollNo=-1;
+    	name="";
+    	div='\0';
     }
 };
 
 int main() {
-    int n;
-    cout << "Enter the number of students: ";
-    cin >> n;
+    
+   Student students[5];
+   
+   
 
-    vector<Student> students(n);
 
-
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < 5; i++) {
         students[i].accept();
     }
 
 
     cout << "\nDetails of all students:\n";
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < 5; i++) {
         students[i].display();
     }
+	int op;
+   cout<<"What you want to perform"<<endl;
+   cout<<"1.Modify"<<endl;
+   cout<<"2.Delete"<<endl;
+   cin>>op;
+   switch(op){
+   	case 1:
+   		int r;
+		    cout << "Enter roll number to modify name: ";
+		    cin >> r;
 
-   
-    int r;
-    cout << "Enter roll number to modify name: ";
-    cin >> r;
 
-    bool found = false;
-    for (int i = 0; i < n; i++) {
-        if (students[i].getRollNo() == r) {
-            students[i].modifyname();
-            students[i].modifydiv();
-            found = true;
-            break; 
-        }
+		    for (int i = 0; i < 5; i++) {
+			 if (students[i].getRollNo() == r) {
+			     students[i].modifyname();
+			     students[i].modifydiv();
+
+			     break; 
+			 }
+		    }
+
+		   
+
+		 
+		    cout << "\nDetails of all students after modification:\n";
+		    for (int i = 0; i < 5; i++) {
+			 students[i].display();}
+   			 break;
+    
+    case 2:
+    cout<<"\n Enter the roll no you want to delete"<<endl;
+    cin>> r;
+    for (int i = 0; i < 5; i++) {
+    	if(students[i].getRollNo() == r){
+    		students[i].remove();
+    	}
     }
-
-    if (!found) {
-        cout << "Student with roll number " << r << " not found." << endl;
-    }
-
- 
     cout << "\nDetails of all students after modification:\n";
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < 5; i++) {
         students[i].display();
     }
+    	break;
+    
+    }
+   	
+    
 
     return 0;
 }
