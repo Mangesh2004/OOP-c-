@@ -50,6 +50,7 @@ public:
     void displayData() const;
     void modifyData();
     void deleteData();
+    void searchStudent(const Student students[], int n, int rollNumber);
 
     // Inline function to get roll number
     inline int getRollNumber() const
@@ -163,68 +164,101 @@ void Student::deleteData()
     drivingLicenseNumber = "";
 }
 
+// Member function to search student data
+void Student::searchStudent(const Student students[], int n, int rollNumber)
+{
+    bool found = false;
+    for (int i = 0; i < n; i++)
+    {
+        if (students[i].getRollNumber() == rollNumber)
+        {
+            students[i].displayData();
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+    {
+        cout << "Student with Roll Number " << rollNumber << " not found." << endl;
+    }
+}
 
-int main() {
-    
+int main()
+{
     Student students[10];
     int n = 0;
     int choice;
 
-    do {
+    do
+    {
         cout << "\nMenu:\n";
         cout << "1. Add Student\n";
         cout << "2. Display All Students\n";
-        cout << "3. Modify Student Data\n";
-        cout << "4. Delete Student Data\n";
-        cout << "5. Exit\n";
+        cout << "3. Search Student\n";
+        cout << "4. Modify Student Data\n";
+        cout << "5. Delete Student Data\n";
+        cout << "6. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
-        switch (choice) {
-            case 1:
-                if (n < 10) {
-                    cout << "Enter details for student " << (n + 1) << ":\n";
-                    students[n].getData();
-                    n++;
+        switch (choice)
+        {
+        case 1:
+            if (n < 10)
+            {
+                cout << "Enter details for student " << (n + 1) << ":\n";
+                students[n].getData();
+                n++;
+            }
+            break;
+        case 2:
+            cout << "\nDisplaying student details:\n";
+            for (int i = 0; i < n; i++)
+            {
+                students[i].displayData();
+                cout << endl;
+            }
+
+            break;
+        case 3:
+            int rollNumberToSearch;
+            cout << "Enter roll number of the student to search: ";
+            cin >> rollNumberToSearch;
+            students[0].searchStudent(students, n, rollNumberToSearch);
+            break;
+        case 4:
+            int rollNumberToModify;
+            cout << "Enter roll number of the student to modify: ";
+            cin >> rollNumberToModify;
+            for (int i = 0; i < n; i++)
+            {
+                if (students[i].getRollNumber() == rollNumberToModify)
+                {
+                    students[i].modifyData();
+                    break;
                 }
-                break;
-            case 2:
-                cout << "\nDisplaying student details:\n";
-                for (int i = 0; i < n; i++) {
-                    students[i].displayData();
-                    cout << endl;
+            }
+            break;
+        case 5:
+            int rollNumberToDelete;
+            cout << "Enter roll number of the student to delete: ";
+            cin >> rollNumberToDelete;
+            for (int i = 0; i < n; i++)
+            {
+                if (students[i].getRollNumber() == rollNumberToDelete)
+                {
+                    students[i].deleteData();
+                    break;
                 }
-                
-                break;
-            case 3:
-                int rollNumberToModify;
-                cout << "Enter roll number of the student to modify: ";
-                cin >> rollNumberToModify;
-                for (int i = 0; i < n; i++) {
-                    if (students[i].getRollNumber() == rollNumberToModify) {
-                        students[i].modifyData();
-                        break;
-                    }
-                }
-                break;
-            case 4:
-                int rollNumberToDelete;
-                cout << "Enter roll number of the student to delete: ";
-                cin >> rollNumberToDelete;
-                for (int i = 0; i < n; i++) {
-                    if (students[i].getRollNumber() == rollNumberToDelete) {
-                        students[i].deleteData();
-                        break;
-                    }
-                }
-                break;
-            case 5:
-                cout << "Exiting program.\n";
-                break;
-            default:
-                cout << "Invalid choice! Please try again.\n";
+            }
+            break;
+        case 6:
+            cout << "Exiting program.\n";
+            break;
+        default:
+            cout << "Invalid choice! Please try again.\n";
         }
-    } while (choice != 5);
+    } while (choice != 6);
 
     return 0;
 }
